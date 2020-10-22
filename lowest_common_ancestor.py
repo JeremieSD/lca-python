@@ -1,3 +1,6 @@
+import unittest
+from unittest.case import TestCase
+#IMPORTANT NOTICE: Binary tree will not include duplicates. -> assumption made
 class Node:
   def __init__(self, id):
     self.id = id
@@ -57,6 +60,8 @@ def setup():
   return rootNode
 
 def findLCA(root,x,y):
+  if (x is None or y is None or root is None):
+    return -1
   vector1 = root.familyVector(x)
   vector2 = root.familyVector(y)
   print(vector1)
@@ -74,14 +79,14 @@ def findLCA(root,x,y):
   else:
     return -1  
 
-def main():
-  root = setup()
-  lca = findLCA(root,'j','o') #Change this to whichever letters from the binary_tree file to get another LCA
-  if (lca is not -1):
-    print(lca + " is the lowest common ancestor.")
-  else:
-    print('Lowest common ancestor cannot be found.')
-
+class UnitTestLCA(unittest.TestCase):
+  def test_cases(self):
+    lca = setup()
+    self.assertEqual(findLCA(None,'k','e'),-1,msg="Null is good")
+    self.assertEqual(findLCA(lca,'w','k'),'w',msg="Correct Root, w k")
+    self.assertEqual(findLCA(lca,'z','g'),'w',msg="Correct lca z g")
+    self.assertNotEqual(findLCA(lca,'a','l'),'a',msg='Correct invalid solution')
+    self.assertEqual(findLCA(lca,'v','c'),'e',msg="Correct lca v c")
 
 if __name__ == "__main__":
-    main()
+  unittest.main()
